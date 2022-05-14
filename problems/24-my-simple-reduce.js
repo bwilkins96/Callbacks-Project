@@ -34,14 +34,80 @@ AFTER YOU ARE FINISHED WITH THIS PROBLEM, ASK FOR A CODE REVIEW
   optional initial accumulator
 *******************************************************************************/
 
-let mySimpleReduce = function() {
 
+let mySimpleReduce = function(arr, cb) {
+    let acc = arr[0];
+
+    for (let i = 1; i < arr.length; i++) {
+        let el = arr[i];
+        acc = cb(acc, el);
+    }
+
+    return acc;
 };
 
+let myReduce = function(arr, cb, ival) {
+    let acc;
 
+    if (ival === undefined) {
+        acc = arr[0];
 
+        for (let i = 1; i < arr.length; i++) {
+            let el = arr[i];
+            acc = cb(acc, el);
+        }
+    } else {
+        acc = ival;
 
+        for (let i = 0; i < arr.length; i++) {
+            let el = arr[i];
+            acc = cb(acc, el);
+        }
+    }
 
+    return acc;
+};
+
+//------------------------------------------------------------------------------
+
+let result1 = mySimpleReduce([5, 3, 2, 4], function(sum, el) {
+    return sum + el;
+});
+console.log(result1); // 14
+
+let result2 = mySimpleReduce([4, 6, 2], function(product, el) {
+    return product * el;
+});
+console.log(result2); // 48
+
+let result3 = mySimpleReduce([4, 6, 2, 8, 3], function(max, el) {
+    if (el > max) {
+        return el;
+    } else {
+        return max;
+    }
+});
+console.log(result3); // 8
+
+let test = [4, 6, 2, 8, 3].reduce( function(max, el) {
+    if (el > max) {
+        return el;
+    } else {
+        return max;
+    }
+});
+console.log("test: " + test); // 8)
+
+let result4 = myReduce([5, 3, 2, 4], function(sum, el) {
+    return sum + el;
+}, 86);
+
+console.log("with inital: " + result4); // 100
+
+let result5 = myReduce([4, 6, 2], function(product, el) {
+    return product * el;
+});
+console.log("w/o initial: " + result5); // 48
 
 /*****************DO NOT MODIFY ANYTHING UNDER THIS  LINE**********************/
 module.exports = mySimpleReduce;
